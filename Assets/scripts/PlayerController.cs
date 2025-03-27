@@ -1,74 +1,95 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro; 
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 0; 
-    public TextMeshProUGUI countText;
-    public GameObject winTextOBject; 
+ private Rigidbody rb; 
 
-    private Rigidbody rb;
-    private int count; 
-    private float movementX;
-    private float movementY;
+ private int count;
 
-    // Start is called before the first frame update
-    void Start()
+ private float movementX;
+ private float movementY;
+
+ public float speed = 0;
+
+ public TextMeshProUGUI countText;
+
+ public GameObject winTextObject;
+
+ void Start()
     {
-        rb = GetComponent<Rigidbody>(); 
+        rb = GetComponent<Rigidbody>();
+
         count = 0;
 
         SetCountText();
-        winTextOBject.SetActive(false);
-        if(count >= 59)
-        {
-            winTextOBject.SetActive(true);
-        }
+
     }
-    
-    void OnMove(InputValue movementValue)
+
+ void OnMove(InputValue movementValue)
     {
         Vector2 movementVector = movementValue.Get<Vector2>();
 
-        movementX = movementVector.x;
-        movementY = movementVector.y;
+        movementX = movementVector.x; 
+        movementY = movementVector.y; 
     }
 
-    void SetCountText()
+ private void FixedUpdate() 
     {
-        countText.text =  "Count: " + count.ToString();
+        Vector3 movement = new Vector3 (movementX, 0.0f, movementY);
+
+        rb.AddForce(movement * speed); 
     }
 
-    void FixedUpdate()
+ 
+ void OnTriggerEnter(Collider other) 
     {
-        Vector3 movement = new Vector3(movementX, 0.0f, movementY);
-
-        rb.AddForce(movement * speed);
-    }
-    private void OnCollisionEnter(Collision collision)
-{
-   if (collision.gameObject.CompareTag("Enemy"))
-   {
-      
-       Destroy(gameObject); 
-       WinTextOBjectinTextObject.GameObject.SetActive(true);
-       winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
-   }
-}
-
-    private void OnTriggerEnter (Collider other)
-    {
-        if(other.gameObject.CompareTag("PickUp"))
+ // Check if the object the player collided with has the "PickUp" tag.
+ if (other.gameObject.CompareTag("PickUp")) 
         {
+ // Deactivate the collided object (making it disappear).
             other.gameObject.SetActive(false);
+
+ // Increment the count of "PickUp" objects collected.
             count = count + 1;
 
-            SetCountText(); 
+ // Update the count display.
+            SetCountText();
         }
-        
     }
+
+ // Function to update the displayed count of "PickUp" objects collected.
+ void SetCountText() 
+    {
+ // Update the count text with the current count.
+        countText.text = "Count: " + count.ToString();
+
+ // Check if the count has reached or exceeded the win condition.
+ if (count >= 60)
+        {
+ // Display the win text.
+            winTextObject.SetActive(true);
+
+ // Destroy the enemy GameObject.
+            Destroy(GameObject.FindGameObjectWithTag("Enemy"));
+        }
+    }
+
+private void OnCollisionEnter(Collision collision)
+{
+ if (collision.gameObject.CompareTag("Enemy"))
+    {
+ // Destroy the current object
+        Destroy(gameObject); 
+ 
+ // Update the winText to display "You Lose!"
+        winTextObject.gameObject.SetActive(true);
+        winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+ 
+    }
+
 }
 
+
+}
