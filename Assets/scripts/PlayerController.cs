@@ -83,9 +83,7 @@ private void OnCollisionEnter(Collision collision)
  // Destroy the current object
         Destroy(gameObject); 
  
- // Update the winText to display "You Lose!"
-        winTextObject.gameObject.SetActive(true);
-        winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+ 
  
     }
 
