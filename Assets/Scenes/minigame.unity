@@ -2920,7 +2920,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 30
   countText: {fileID: 1934359293}
-  winTextOBject: {fileID: 275526035}
+  winTextObject: {fileID: 275526035}
 --- !u!114 &809295671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7193,8 +7193,8 @@ GameObject:
   - component: {fileID: 1830853699}
   - component: {fileID: 1830853703}
   m_Layer: 0
-  m_Name: Cube
-  m_TagString: Untagged
+  m_Name: EnemyBody
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
